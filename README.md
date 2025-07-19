@@ -1,4 +1,4 @@
-📐 System Architecture
+## System Architecture
 
 ```
 Frontend (React + TypeScript)
@@ -126,3 +126,45 @@ Frontend Optimization:
 Use lazy loading for assignment and submission lists.
 
 Optimize file preview/download with cloud URLs.
+
+
+##  Tech Stack
+
+- **Frontend**: React.js  
+- **Backend**: Django & Django REST Framework  
+- **Database**: SQLite  
+- **Authentication**: Email-based custom user model  
+- **Testing Accounts**:
+  - **Manager**
+    - Email: `v@gmail.com`
+    - Password: `123456`
+  - **Employees**
+    - `v4@gmail.com`
+    - `v5@gmail.com`
+    - `v6@gmail.com`
+    - Password: `123456`
+
+---
+
+##  Getting Started
+
+### 1. Clone the Repository
+
+```bash
+git clone https://github.com/vamsi0874/Edtech.git
+
+cd backend
+python -m venv env
+source env/bin/activate   # On Windows: env\Scripts\activate
+pip install -r requirements.txt
+python manage.py makemigrations
+python manage.py migrate
+python manage.py runserver
+
+cd ../frontend
+npm install
+npm run dev
+
+```
+
+
