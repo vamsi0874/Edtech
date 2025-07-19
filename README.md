@@ -9,6 +9,7 @@ Database (PostgreSQL / SQLite)
         ↓
 File Storage (Local / S3 for production)
 ```
+```
 Frontend handles authentication, role-based routing, assignment submission/viewing.
 
 Backend provides RESTful APIs for managing users, assignments, and submissions.
@@ -16,21 +17,23 @@ Backend provides RESTful APIs for managing users, assignments, and submissions.
 Authentication is handled via JWT (access/refresh tokens).
 
 File Uploads are supported for assignments and submissions.
-
-📊 Core Entities & Relationships (ER Diagram in Tabular Format)
+```
+ Core Entities & Relationships (ER Diagram in Tabular Format)
 Entity	Fields
+```
 User	id, email, name, password, role (student/teacher), timestamps
 Assignment	id, title, description, due_date, teacher_id, file
 Submission	id, assignment_id, student_id, file, comment, submitted_at
-
+```
 Relationships
+```
 A Teacher can create many Assignments.
 
 A Student can submit one Submission per Assignment.
 
 Each Submission is linked to both Student and Assignment.
-
-🔌 API Endpoints
+```
+ API Endpoints
 ```
 🔸 1. Teacher Creates Assignment
 
