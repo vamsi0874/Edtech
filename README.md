@@ -1,113 +1,127 @@
-# Team Feedback Manager
+📐 System Architecture
+scss
+Copy
+Edit
+Frontend (React + TypeScript)
+        ↓
+Backend (Django + Django REST Framework)
+        ↓
+Database (PostgreSQL / SQLite)
+        ↓
+File Storage (Local / S3 for production)
+Frontend handles authentication, role-based routing, assignment submission/viewing.
 
-A full-stack application built with **React.js** (frontend), **Django** (backend), and **SQLite** (database) to manage team feedback between managers and employees.
+Backend provides RESTful APIs for managing users, assignments, and submissions.
 
----
-deployed URL : [https://feedback-nu-three.vercel.app]
+Authentication is handled via JWT (access/refresh tokens).
 
+File Uploads are supported for assignments and submissions.
 
-## 🔧 Tech Stack
+📊 Core Entities & Relationships (ER Diagram in Tabular Format)
+Entity	Fields
+User	id, email, name, password, role (student/teacher), timestamps
+Assignment	id, title, description, due_date, teacher_id, file
+Submission	id, assignment_id, student_id, file, comment, submitted_at
 
-- **Frontend**: React.js  
-- **Backend**: Django & Django REST Framework  
-- **Database**: SQLite  
-- **Authentication**: Email-based custom user model  
-- **Testing Accounts**:
-  - **Manager**
-    - Email: `v@gmail.com`
-    - Password: `123456`
-  - **Employees**
-    - `v4@gmail.com`
-    - `v5@gmail.com`
-    - `v6@gmail.com`
-    - Password: `123456`
+Relationships
+A Teacher can create many Assignments.
 
----
+A Student can submit one Submission per Assignment.
 
-## 🚀 Getting Started
+Each Submission is linked to both Student and Assignment.
 
-### 1. Clone the Repository
+🔌 API Endpoints
+🔸 1. Teacher Creates Assignment
+makefile
+Copy
+Edit
+POST /api/create-assignment/
+Headers: Authorization: Bearer <JWT>
+Body: {
+  "title": "Math Homework",
+  "description": "Page 42, exercises 1-10",
+  "due_date": "2025-07-22",
+  "file": (optional file)
+}
+Access: Teacher only
 
-```bash
-git clone https://github.com/vamsi0874/feedback.git
+🔸 2. Student Submits Assignment
+bash
+Copy
+Edit
+POST /api/submit-assignment/<assignment_id>/
+Headers: Authorization: Bearer <JWT>
+Body (multipart/form-data):
+{
+  "file": <uploaded file>,
+  "comment": "Please find attached my homework."
+}
+Access: Student only
 
-cd backend
-python -m venv env
-source env/bin/activate   # On Windows: env\Scripts\activate
-pip install -r requirements.txt
-python manage.py makemigrations
-python manage.py migrate
-python manage.py runserver
+🔸 3. Teacher Views Submissions
+sql
+Copy
+Edit
+GET /api/view-submissions/<assignment_id>/
+Headers: Authorization: Bearer <JWT>
+Returns: List of student submissions for the assignment
 
-cd ../frontend
-npm install
-npm start
+Access: Teacher only
 
-```
-```bash
-cd backend/my_app
-docker compose up --build
-```
+🔐 Authentication Strategy
+JWT Authentication:
 
-# Project Overview
-This project is a Team Feedback Management System built using React.js for the frontend and Django for the backend with an SQLite database. It facilitates structured communication between managers and their employees through feedback.
+Upon login/signup, server returns access and refresh tokens.
 
-# User Authentication & Roles
-Uses a custom user model that supports login and registration.
+access token is used for protected routes.
 
-During registration, the user can select a role:
+refresh token is used to obtain a new access token.
 
-manager
+Role-based Access:
 
-employee (default if none selected)
----
-# Roles and Dashboards
-# Manager Dashboard
-Displays a list of feedback entries given to their assigned employees.
+Users have a role field (student or teacher).
 
-A manager can:
+API views check request.user.role for permission handling.
 
-Create new feedback for any employee under them.
+Teachers can:
 
-Edit/update existing feedback.
+Create assignments
 
-Each feedback contains:
+View all submissions
 
-Title
+Students can:
 
-Description
+View assignments
 
-Date
+Submit their assignments
 
----
- Acknowledgment status (whether the employee has acknowledged it)
+📈 Future Scalability Suggestions
+Database:
 
-Comments from the employee (if any)
+Use PostgreSQL in production for better performance and relational handling.
 
- Employee Dashboard
-Displays feedback addressed to the logged-in employee.
+Add indexing on frequently queried fields (e.g., assignment_id, user_id).
 
-The employee can:
+File Storage:
 
-Acknowledge feedback by marking it as seen/read.
+Use Amazon S3 or Google Cloud Storage for scalable file uploads.
 
-Comment on feedback with thoughts, clarifications, or responses.
+Add file validation (size, type) at upload time.
 
- ## Feedback Flow
-Manager creates feedback for a team member.
+Caching:
 
-Employee logs in, views feedback.
+Use Redis to cache frequently accessed data like assignment lists or user profiles.
 
-Employee can:
+Rate Limiting:
 
-Acknowledge the feedback
+Protect endpoints using DRF's throttling classes to prevent abuse.
 
-Leave a comment
+CI/CD Integration:
 
-Manager sees updates (acknowledgments and comments).
+Add GitHub Actions or GitLab CI for automated testing and deployment.
 
+Frontend Optimization:
 
+Use lazy loading for assignment and submission lists.
 
-
-
-
+Optimize file preview/download with cloud URLs.
