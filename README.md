@@ -1,7 +1,6 @@
 📐 System Architecture
-scss
-Copy
-Edit
+
+```
 Frontend (React + TypeScript)
         ↓
 Backend (Django + Django REST Framework)
@@ -9,6 +8,7 @@ Backend (Django + Django REST Framework)
 Database (PostgreSQL / SQLite)
         ↓
 File Storage (Local / S3 for production)
+```
 Frontend handles authentication, role-based routing, assignment submission/viewing.
 
 Backend provides RESTful APIs for managing users, assignments, and submissions.
@@ -31,10 +31,9 @@ A Student can submit one Submission per Assignment.
 Each Submission is linked to both Student and Assignment.
 
 🔌 API Endpoints
+```
 🔸 1. Teacher Creates Assignment
-makefile
-Copy
-Edit
+
 POST /api/create-assignment/
 Headers: Authorization: Bearer <JWT>
 Body: {
@@ -44,11 +43,9 @@ Body: {
   "file": (optional file)
 }
 Access: Teacher only
-
+```
 🔸 2. Student Submits Assignment
-bash
-Copy
-Edit
+```
 POST /api/submit-assignment/<assignment_id>/
 Headers: Authorization: Bearer <JWT>
 Body (multipart/form-data):
@@ -57,20 +54,19 @@ Body (multipart/form-data):
   "comment": "Please find attached my homework."
 }
 Access: Student only
+```
 
 🔸 3. Teacher Views Submissions
-sql
-Copy
-Edit
+```
 GET /api/view-submissions/<assignment_id>/
 Headers: Authorization: Bearer <JWT>
 Returns: List of student submissions for the assignment
 
 Access: Teacher only
-
+```
 🔐 Authentication Strategy
 JWT Authentication:
-
+```
 Upon login/signup, server returns access and refresh tokens.
 
 access token is used for protected routes.
@@ -82,22 +78,23 @@ Role-based Access:
 Users have a role field (student or teacher).
 
 API views check request.user.role for permission handling.
-
+```
 Teachers can:
-
+```
 Create assignments
 
 View all submissions
-
+```
 Students can:
-
+```
 View assignments
 
 Submit their assignments
+```
 
-📈 Future Scalability Suggestions
+ Future Scalability Suggestions
 Database:
-
+```
 Use PostgreSQL in production for better performance and relational handling.
 
 Add indexing on frequently queried fields (e.g., assignment_id, user_id).
@@ -107,18 +104,19 @@ File Storage:
 Use Amazon S3 or Google Cloud Storage for scalable file uploads.
 
 Add file validation (size, type) at upload time.
-
+```
 Caching:
-
+```
 Use Redis to cache frequently accessed data like assignment lists or user profiles.
-
+```
 Rate Limiting:
-
+```
 Protect endpoints using DRF's throttling classes to prevent abuse.
-
+```
 CI/CD Integration:
-
+```
 Add GitHub Actions or GitLab CI for automated testing and deployment.
+```
 
 Frontend Optimization:
 
