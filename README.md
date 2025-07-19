@@ -61,7 +61,7 @@ Access: Student only
 
 🔸 3. Teacher Views Submissions
 ```
-GET /api/view-submissions/<assignment_id>/
+GET /api/view-submissions/
 Headers: Authorization: Bearer <JWT>
 Returns: List of student submissions for the assignment
 
