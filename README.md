@@ -135,13 +135,12 @@ Optimize file preview/download with cloud URLs.
 - **Database**: SQLite  
 - **Authentication**: Email-based custom user model  
 - **Testing Accounts**:
-  - **Manager**
-    - Email: `v@gmail.com`
+  - **Teacher**
+    - Email: `teacher1@gmail.com`
     - Password: `123456`
-  - **Employees**
-    - `v4@gmail.com`
-    - `v5@gmail.com`
-    - `v6@gmail.com`
+  - **Student**
+    - `student1@gmail.com`
+
     - Password: `123456`
 
 ---
